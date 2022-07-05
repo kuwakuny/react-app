@@ -1,6 +1,7 @@
 import './App.css';
 //ReactのuseStateフックインポート
 import { useState } from 'react';
+
 //ヘッダー
 function Header(props) {
   return <header>
@@ -72,21 +73,25 @@ function Create(props) {
 }
 
 function Update(props) {
-  //propsで得た値は変更できないので、state宣言
+  //propsで得た値は変更できないので、state宣言して、既存内容を修正できるように
   const [title, setTitle] = useState(props.title);
   const [body, setBody] = useState(props.body);
   return <article>
     <h2>Update</h2>
+    {/*Updateをクリックしたら、入力した内容がtitleとbody変数に格納*/}
     <form onSubmit={event => {
       event.preventDefault();
       const title = event.target.title.value;
       const body = event.target.body.value;
+      //項目を追加するonUpdate関数にtitleとbodyを渡して呼び出し
       props.onUpdate(title, body);
     }}>
       <p><input type="text" name="title" placeholder="title" value={title} onChange={event => {
+        //titleのstate更新
         setTitle(event.target.value);
       }} /></p>
       <p><textarea name="body" placeholder="body" value={body} onChange={event => {
+        //bodyのstate更新
         setBody(event.target.value);
       }}></textarea></p>
       <p><input type="submit" value="Update"></input></p>
@@ -217,6 +222,7 @@ function App() {
           event.preventDefault();
           setMode('CREATE');
         }}>Create</a></li>
+        {/*Update*/}
         {contextControl}
       </ul>
     </div>
